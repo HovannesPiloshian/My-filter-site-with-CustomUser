@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart{% endblock %}
+{% block page_name %}Your Cart{% endblock %}
+{% block content %}
+    <h1>Cart</h1>
+    {% for item in cart_list %}
+        <h5>{{ item.tent.name }}</h5>
+        <img src="{{ item.tent.image1.url }}" width="300px" alt="{{ item.tent.name }}">
+        <p>${{ item.tent.price }}</p>
+        <p>Quantity: {{ item.quantity }}</p>
+        <hr>
+    {% endfor %}
+{% endblock %}

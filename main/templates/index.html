@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Tent Filter{% endblock %}
+{% block page_name %}Filter Tents{% endblock %}
+{% block content %}
+    <h1>Filter Tents</h1>
+    <form method="post" class="filter-form">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Colors</legend>
+            {% for color in color_list %}
+            <div class="checkbox-group">
+                <input type="checkbox" id="color{{ color.id }}" name="color_id" value="{{ color.id }}">
+                <label for="color{{ color.id }}">{{ color.color_name }}</label>
+            </div>
+            {% endfor %}
+        </fieldset>
+
+        <fieldset>
+            <legend>Materials</legend>
+            {% for material in materials %}
+            <div class="checkbox-group">
+                <input type="checkbox" id="material{{ forloop.counter }}" name="material" value="{{ material }}">
+                <label for="material{{ forloop.counter }}">{{ material }}</label>
+            </div>
+            {% endfor %}
+        </fieldset>
+
+        <fieldset>
+            <legend>Tent Name</legend>
+            <input type="text" name="tent_name" placeholder="Enter tent name" class="input-field">
+        </fieldset>
+
+        <fieldset>
+            <legend>Weight (kg)</legend>
+            <input type="number" name="weight" placeholder="Max weight (kg)" class="input-field">
+        </fieldset>
+
+        <fieldset>
+            <legend>Height (m)</legend>
+            <input type="number" step="0.01" name="height" placeholder="Max height (m)" class="input-field">
+        </fieldset>
+
+        <fieldset>
+            <legend>Price ($)</legend>
+            <input type="number" name="price" placeholder="Max price ($)" class="input-field">
+        </fieldset>
+
+        <fieldset>
+            <legend>Capacity (people)</legend>
+            <input type="number" name="capacity" placeholder="Min capacity (people)" class="input-field">
+        </fieldset>
+
+        <input type="submit" value="Submit" class="submit-button">
+    </form>
+
+    <div class="tent-list">
+        {% for tent in tent_list %}
+        <div class="tent-item">
+            <h3>{{ tent.name }}</h3>
+            <img src="{{ tent.image1.url }}" alt="{{ tent.name }}" class="tent-image">
+            <p>${{ tent.price }}</p>
+            <p>Weight: {{ tent.weight }} kg</p>
+            <p>Height: {{ tent.height }} m</p>
+            <p>Capacity: {{ tent.capacity }} people</p>
+            <form method="post" action="{% url 'add_to_cart' tent.id %}">
+                {% csrf_token %}
+                <button type="submit">Add to Cart</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

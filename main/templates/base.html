@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <h1>{% block page_name %}{% endblock %}</h1>
+    <a href="{% url 'index' %}"><button>User Home Page</button></a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}"><button>Logout {{ user.username }}</button></a>
+        <a href="{% url 'cart' %}"><button>Cart</button></a>
+    {% else %}
+        <a href="{% url 'login' %}"><button>Login</button></a>
+        <a href="{% url 'register' %}"><button>Register</button></a>
+    {% endif %}
+    <hr>
+    <div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
